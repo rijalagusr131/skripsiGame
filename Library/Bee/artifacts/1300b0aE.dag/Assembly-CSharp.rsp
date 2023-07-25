@@ -30,6 +30,7 @@
 -define:UNITY_2022_2_OR_NEWER
 -define:UNITY_2022_3_OR_NEWER
 -define:UNITY_INCLUDE_TESTS
+-define:UNITY_ANALYTICS
 -define:ENABLE_AR
 -define:ENABLE_AUDIO
 -define:ENABLE_CACHING
@@ -382,6 +383,7 @@
 "Assets/Scripts/DistanceScore.cs"
 "Assets/Scripts/Jawab.cs"
 "Assets/Scripts/MenuController.cs"
+"Assets/Scripts/PauseMenu.cs"
 "Assets/Scripts/PlayerController.cs"
 "Assets/Scripts/RoadSpawner.cs"
 "Assets/Scripts/RotateObject.cs"

@@ -8,10 +8,10 @@ public class PlayerController : MonoBehaviour {
 
 	int currentScore = 44;
 
+
 	private Touch initialTouch = new Touch ();
 	private float distance = 0;
 	private bool hasSwiped = false;
-
 
 	public bool jump = false;
 	public bool slide = false;
@@ -36,11 +36,25 @@ public class PlayerController : MonoBehaviour {
 	public Text bestdistanceScoreText;
 	public Text bestquestionScoreText;
 	public float lastScore;
-
 	public GameObject distanceScore;
+
+	//Keyboard
+	public float speed = 5f; 
+	public float jumpForce = 5f;
+	public float slideDuration = 1f;
+	public float slideSpeedMultiplier = 2f;
+
+	private bool isSliding = false;
+	private float slideTimer = 0f;
+	private Rigidbody rb;
+
 
 	// Use this for initialization
 	private void Start () {
+		//Keyboard
+		{
+			rb = GetComponent<Rigidbody>();
+		}
 		//PlayerPrefs.DeleteAll();
 		anim = GetComponent<Animator> ();
 		rbody = GetComponent<Rigidbody> ();
@@ -52,6 +66,36 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	private void FixedUpdate () {
+		//Keyboard
+		// Gerakan horizontal
+		float moveHorizontal = Input.GetAxis("Horizontal");
+		transform.Translate(moveHorizontal * speed * Time.deltaTime, 0f, 0f);
+
+		// Loncat
+		if (Input.GetButtonDown("Jump") && !isSliding)
+		{
+			rb.AddForce(new Vector3(0f, jumpForce, 0f), ForceMode.Impulse);
+		}
+
+		// Slide
+		if (Input.GetButtonDown("Slide") && !isSliding)
+		{
+			isSliding = true;
+			slideTimer = 0f;
+			speed *= slideSpeedMultiplier;
+		}
+
+		// Menghitung durasi slide
+		if (isSliding)
+		{
+			slideTimer += Time.deltaTime;
+			if (slideTimer >= slideDuration)
+			{
+				isSliding = false;
+				speed /= slideSpeedMultiplier;
+			}
+		}
+
 		foreach (Touch t in Input.touches) 
 		{
 			if (t.phase == TouchPhase.Began) 
